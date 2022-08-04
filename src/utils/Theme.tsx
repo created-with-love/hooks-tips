@@ -29,12 +29,12 @@ export function ThemeProvider({ children }: Props): ReactElement {
   const [style, setStyle] = useState<CSSProperties>()
 
   useEffect(() => {
-    const getPerson = async () => {
+    const getStyles = async () => {
       const stylesFromLocal = await localforage.getItem<CSSProperties>("style")
       setStyle(stylesFromLocal ?? undefined)
     }
 
-    getPerson()
+    getStyles()
   }, [])
 
   useEffect(() => {
