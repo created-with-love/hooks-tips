@@ -1,30 +1,18 @@
-import localforage from "localforage"
-import React, { ReactElement, useState, useEffect } from "react"
+import React, { ReactElement, useRef, useEffect } from "react"
 
 import { LabeledInput, Loading } from "../components"
-import { Person } from "../types/person"
 import { initialPerson } from "../utils"
-
-const savePerson = (person: Person | null): void => {
-  console.log("🚀 person", person)
-  localforage.setItem("person", person)
-}
+import { usePerson } from './usePerson';
 
 export function PersonEditor(): ReactElement {
-  const [person, setPerson] = useState<Person | null>(null)
+  const [person, setPerson] = usePerson(initialPerson);
+  const input = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const getPerson = async () => {
-      const person = await localforage.getItem<Person>("person")
-      setPerson(person ?? initialPerson)
-    }
-
-    getPerson()
+    setTimeout(() => {
+      input.current?.focus();
+    }, 1000)
   }, [])
-
-  useEffect(() => {
-    savePerson(person)
-  }, [person])
 
   if (!person) {
     return <Loading />
@@ -40,38 +28,39 @@ export function PersonEditor(): ReactElement {
     >
       <h2>Person Editor</h2>
       <LabeledInput
+        ref={input}
         label="Firstname:"
         value={person.firstname}
         onChange={(e) => {
-          setPerson((state) => ({ ...state!, firstname: e.target.value }))
+          setPerson((state: any) => ({ ...state!, firstname: e.target.value }))
         }}
       />
       <LabeledInput
         label="Surname:"
         value={person.surname}
         onChange={(e) => {
-          setPerson((state) => ({ ...state!, surname: e.target.value }))
+          setPerson((state: any) => ({ ...state!, surname: e.target.value }))
         }}
       />
       <LabeledInput
         label="Email:"
         value={person.email}
         onChange={(e) => {
-          setPerson((state) => ({ ...state!, email: e.target.value }))
+          setPerson((state: any) => ({ ...state!, email: e.target.value }))
         }}
       />
       <LabeledInput
         label="Address:"
         value={person.address}
         onChange={(e) => {
-          setPerson((state) => ({ ...state!, address: e.target.value }))
+          setPerson((state: any) => ({ ...state!, address: e.target.value }))
         }}
       />
       <LabeledInput
         label="Phone:"
         value={person.phone}
         onChange={(e) => {
-          setPerson((state) => ({ ...state!, phone: e.target.value }))
+          setPerson((state: any) => ({ ...state!, phone: e.target.value }))
         }}
       />
       <hr />
