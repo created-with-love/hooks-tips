@@ -12,5 +12,9 @@ export function validatePerson(person: IndexedPerson) {
     errors.surname = "The surname is required!"
   }
 
+  if (!person.email) {
+    errors.email = "The email is required!"
+  }
+
   return errors
 }
